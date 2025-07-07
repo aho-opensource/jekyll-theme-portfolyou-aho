@@ -66,6 +66,11 @@ stackoverflow:
   icon  : fab fa-stack-overflow
   color : f48024
 
+pinterest:
+  url   : https://www.pinterest.com/
+  icon  : fab fa-pinterest
+  color : 3b5998
+
 tumblr:
   url   : https://
   icon  : fab fa-tumblr
@@ -95,3 +100,4 @@ keybase:
   url   : https://www.keybase.io/
   icon  : fab fa-keybase
   color : 66ccff
+
