@@ -9,28 +9,27 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav ml-auto">
 
-      {% assign nav_items = site.navbar.items %}
       
-      {% for i in site.navbar.items %} 
-      {{ i | inspect }}
-      {% endfor %}
+      {% for item in site.navbar.items %}
+        {% assign item_page = site.pages | find: "path", item.page %}
+        {% if item_page %}
+          {% assign item_caption = item.caption | default: item_page.title | markdownify %}
 
-      {% for html_page in filtered_pages %}  
+          {%- if page.url contains item_page.url -%}
+            {%- assign active_status = "active" -%}
+          {%- else -%}
+            {%- assign active_status = "" -%}
+          {%- endif -%}
 
-        {%- if page.url contains html_page.url -%}
-          {%- assign active_status = "active" -%}
-        {%- else -%}
-          {%- assign active_status = "" -%}
-        {%- endif -%}
+          {%- if item_page.external_url -%}
+            {%- assign url = item_page.external_url -%}
+          {%- else -%}
+            {%- assign url = item_page.url | relative_url -%}
+          {%- endif -%}
 
-        {%- if html_page.external_url -%}
-          {%- assign url = html_page.external_url -%}
-        {%- else -%}
-          {%- assign url = html_page.url | relative_url -%}
-        {%- endif -%}
+          <a class="nav-item nav-link {{ active_status }}" href="{{ url }}" {%- if item_page.external_url and site.external_new_tab -%} target="_blank" {%- endif -%}>{{ item_caption }}</a>
 
-        <a class="nav-item nav-link {{ active_status }}" href="{{ url }}" {%- if html_page.external_url and site.open_new_tab -%} target="_blank" {%- endif -%}>{{ html_page.title }}</a>
-
+        {% endif %}
       {% endfor %}
 
       {% if site.navbar.toggle_theme %}
