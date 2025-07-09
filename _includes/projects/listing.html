@@ -1,0 +1,61 @@
+
+<div class="card-columns m-3 mt-5">
+  
+  {% comment %} from given projects... {% endcomment %}
+  {% assign projects0 = include.projects | default: site.projects %}
+  {% assign projects1 = "" | split: ""  %}
+
+  {% comment %} ...cherry pick if given filters... {% endcomment %}
+  {% assign has_filter = include.categories or include.names or include.tags or include.weight %}
+  {% if has_filter %}
+
+    {% for p in projects0 %}
+      
+      {% comment %} categories {% endcomment %}
+      {% assign cs = include.categories | split: " " %}
+      {% for c in cs %}
+
+        {% if p.categories contains c %}
+          {% assign projects1 = projects1 | push: p %}
+          {% break %}
+        {% endif %}
+
+      {% endfor %} 
+
+      {% comment %} tags {% endcomment %}
+      {% if include.tags %} 
+      {% endif %} 
+
+      {% comment %} max priority {% endcomment %}
+      {% if include.exclude_priority %} 
+      {% endif %} 
+
+    {% endfor %}
+
+    {% assign projects1 = projects1 | uniq %}
+    
+  {% comment %} ...otherwise pick all {% endcomment %}
+  {% else %}
+
+    {% assign projects1 = projects0 %}
+
+  {% endif %}
+
+
+  {% comment %} output curated set of projects {% endcomment %}
+  {% for p in projects1 %}
+
+    {% assign p_url = p.url | relative_url %}
+ 
+    {% include  cards/project.html 
+                url=p_url
+                name=p.name
+                description=p.description
+                tags=p.tags
+                categories=p.categories
+                view=p.card
+                %}
+
+  {% endfor %}
+
+</div>

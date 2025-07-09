@@ -1,0 +1,22 @@
+{% assign id = include.name | slugify %}
+
+<div class="wow animated fadeIn" data-wow-delay=".15s">
+  <a href="{{ include.url }}" class="project card text-themed">
+    {% assign image = include.view.image %}
+    {% if image %}
+    <img id="{{ id }}-img" class="card-img-top" src="{{ image }}" alt="{{ include.name }}" />
+    {% endif %}
+    <div class="card-body">
+      <h5 id="{{ id }}-name" class="card-title">
+        {{ include.name }}
+      </h5>
+      <p id="{{ id }}-desc" class="card-text">{{ include.description | markdownify }}</p>
+      <p id="{{ id }}-tools" class="card-text">
+        {% for tag in include.tags %}
+        <span class="badge badge-pill text-primary border border-primary ml-1">{{ tag }}</span>
+        {% endfor %}
+      </p>
+    </div>
+  </a>
+</div>
+
