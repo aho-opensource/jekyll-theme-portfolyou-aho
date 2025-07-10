@@ -6,7 +6,7 @@
   {% assign projects1 = "" | split: ""  %}
 
   {% comment %} ...cherry pick if given filters... {% endcomment %}
-  {% assign has_filter = include.categories or include.names or include.tags or include.weight %}
+  {% assign has_filter = include.categories or include.tags or include.exclude_priority %}
   {% if has_filter %}
 
     {% for p in projects0 %}
@@ -19,16 +19,17 @@
           {% assign projects1 = projects1 | push: p %}
           {% break %}
         {% endif %}
-
       {% endfor %} 
 
       {% comment %} tags {% endcomment %}
-      {% if include.tags %} 
-      {% endif %} 
+      {% assign ts = include.tags | split: " " %}
+      {% for t in ts %}
 
-      {% comment %} max priority {% endcomment %}
-      {% if include.exclude_priority %} 
-      {% endif %} 
+        {% if p.tags contains t %}
+          {% assign projects1 = projects1 | push: p %}
+          {% break %}
+        {% endif %}
+      {% endfor %} 
 
     {% endfor %}
 
@@ -40,6 +41,15 @@
     {% assign projects1 = projects0 %}
 
   {% endif %}
+
+  {% comment %} now filter by priority strictly less than 'exclude_priority' {% endcomment %}
+  {% comment %} this will ignore projects without a priority, i.e. include those {% endcomment %}
+  {% if include.exclude_priority %} 
+    {% capture expr %}
+    p.priority < {{include.exclude_priority}}
+    {% endcapture %}
+    {% assign projects1 = projects1 | where_exp:"p", expr %}
+  {% endif %} 
 
 
   {% comment %} output curated set of projects {% endcomment %}
