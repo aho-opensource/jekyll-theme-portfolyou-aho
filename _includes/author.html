@@ -7,11 +7,11 @@
       <div id="element">
         {% assign image = include.image | default: "assets/img/not_found.png" %}
         {% assign author = include.author | default: {{ site.author.name }} | default: "No Name" %}
-        <img src="{{ image }}" alt="{{ author }}" class="circle-image wow animated zoomIn" data-wow-delay=".1s">
+        <img src="{{ image }}" alt="{{ author }}" class="circle-image wow animated zoomIn" data-wow-delay="0.3s">
       </div>
     </div>
 
-    {% assign content = include.content | default: {{ site.description }} | default: No Info %}
+    {% assign content = include.content | default: {{ site.description }} | default: "No Author Info :sweat_smile:" %}
     <p class="text-muted wow animated slideInUp" data-wow-delay=".15s">{{ content | markdownify }}</p>
 
   </div>
