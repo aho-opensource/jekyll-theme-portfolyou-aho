@@ -13,7 +13,8 @@
       <p id="{{ id }}-desc" class="card-text">{{ include.description | markdownify }}</p>
       <p id="{{ id }}-tools" class="card-text">
         {% for tag in include.tags %}
-        <span class="badge badge-pill text-primary border border-primary ml-1">{{ tag }}</span>
+        {% assign cap = site.data.caption.tag[tag] | default: tag %}
+        <span class="badge badge-pill text-primary border border-primary ml-1">{{ cap }}</span>
         {% endfor %}
       </p>
     </div>
